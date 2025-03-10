@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinamik Bellek Ayırma, İşaretçi Fonksiyon Geçirme ve Parametrelerin İşaretçi ile Geçilmesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h2 {
+            text-align: center;
+        }
+        h3 {
+            color: #007bff;
+            margin-top: 20px;
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .example {
+            margin-bottom: 20px;
+        }
+        .output {
+            background: #e9ecef;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+            margin-top: 5px;
+        }
+        p.note {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Algoritma ve Programlama 4. Hafta Örnekler</h1>
+        <hr>
+        <h2>Dinamik Bellek Ayırma, İşaretçi Fonksiyon Geçirme ve Parametrelerin İşaretçi ile Geçilmesi</h2>
+        
+        <h3>Dinamik Bellek Ayırma</h3>
+        
+        <div class="example">
+            <strong>Örnek 1: malloc() ve free()</strong><br>
+            // Kullanıcı tarafından girilen n sayının toplamını hesaplayan program<br><br>
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+  int n, i, *ptr, sum = 0;
+
+  printf("Eleman sayısını girin: ");
+  scanf("%d", &n);
+
+  ptr = (int*) malloc(n * sizeof(int));
+ 
+  // Bellek tahsis edilemezse
+  if(ptr == NULL) {
+    printf("Hata! Bellek tahsis edilemedi.");
+    exit(0);
+  }
+
+  printf("Elemanları girin: ");
+  for(i = 0; i < n; ++i) {
+    scanf("%d", ptr + i);
+    sum += *(ptr + i);
+  }
+
+  printf("Toplam = %d", sum);
+  
+  // Belleği serbest bırakma
+  free(ptr);
+
+  return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                Eleman sayısını girin: 3<br>
+                Elemanları girin: 100<br>
+                20<br>
+                36<br>
+                Toplam = 156
+            </div>
+        </div>
+                <hr>
+
+        <div class="example">
+            <strong>Örnek 2: calloc() ve free()</strong><br>
+            // Kullanıcı tarafından girilen n sayının toplamını hesaplayan program<br><br>
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+  int n, i, *ptr, sum = 0;
+  printf("Eleman sayısını girin: ");
+  scanf("%d", &n);
+
+  ptr = (int*) calloc(n, sizeof(int));
+  if(ptr == NULL) {
+    printf("Hata! Bellek tahsis edilemedi.");
+    exit(0);
+  }
+
+  printf("Elemanları girin: ");
+  for(i = 0; i < n; ++i) {
+    scanf("%d", ptr + i);
+    sum += *(ptr + i);
+  }
+
+  printf("Toplam = %d", sum);
+  free(ptr);
+  return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                Eleman sayısını girin: 3<br>
+                Elemanları girin: 100<br>
+                20<br>
+                36<br>
+                Toplam = 156
+            </div>
+        </div>
+                <hr>
+
+        <div class="example">
+            <strong>Örnek 3: realloc()</strong><br>
+            /* Dinamik olarak tahsis edilmiş bellek yetersizse veya fazlaysa, realloc() ile boyutu değiştirin.
+               Syntax: ptr = realloc(ptr, x);  */
+            <br><br>
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+  int *ptr, i, n1, n2;
+  printf("Boyutu girin: ");
+  scanf("%d", &n1);
+
+  ptr = (int*) malloc(n1 * sizeof(int));
+
+  printf("Önceden tahsis edilen belleğin adresleri:\n");
+  for(i = 0; i < n1; ++i)
+    printf("%pc\n", ptr + i);
+
+  printf("\nYeni boyutu girin: ");
+  scanf("%d", &n2);
+
+  // Belleği yeniden tahsis etme
+  ptr = realloc(ptr, n2 * sizeof(int));
+
+  printf("Yeni tahsis edilen belleğin adresleri:\n");
+  for(i = 0; i < n2; ++i)
+    printf("%pc\n", ptr + i);
+  
+  free(ptr);
+
+  return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                Boyutu girin: 2<br>
+                Önceden tahsis edilen belleğin adresleri:<br>
+                26855472<br>
+                26855476<br>
+                <br>
+                Yeni boyutu girin: 4<br>
+                Yeni tahsis edilen belleğin adresleri:<br>
+                26855472<br>
+                26855476<br>
+                26855480<br>
+                26855484
+            </div>
+        </div>
+                <hr>
+
+        <h3>İşaretçilerin Fonksiyonlara Geçirilmesi</h3>
+        
+        <div class="example">
+            <strong>Örnek: Adresleri Fonksiyonlara Geçirme</strong><br>
+            <pre>
+#include &lt;stdio.h&gt;
+void swap(int *n1, int *n2);
+
+int main()
+{
+    int num1 = 5, num2 = 10;
+
+    // num1 ve num2'nin adresleri swap() fonksiyonuna gönderilir
+    swap(&num1, &num2);
+
+    printf("num1 = %d\n", num1);
+    printf("num2 = %d", num2);
+    return 0;
+}
+
+void swap(int* n1, int* n2)
+{
+    int temp;
+    temp = *n1;
+    *n1 = *n2;
+    *n2 = temp;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                num1 = 10<br>
+                num2 = 5
+            </div>
+            <p class="note">
+                Bu örnekte, <code>swap(&num1, &num2);</code> ifadesiyle num1 ve num2'nin adresleri fonksiyona gönderilir. Fonksiyonda <code>*n1</code> ve <code>*n2</code> değiştirilince, main() içerisindeki değişkenler de değişir.
+            </p>
+        </div>
+                <hr>
+
+        <div class="example">
+            <strong>Örnek 2: Fonksiyonlara İşaretçi Geçirme</strong><br>
+            <pre>
+#include &lt;stdio.h&gt;
+
+void addOne(int* ptr) {
+  (*ptr)++; // *ptr değerine 1 eklenir
+}
+
+int main()
+{
+  int* p, i = 10;
+  p = &i;
+  addOne(p);
+
+  printf("%d", *p); // 11
+  return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                11
+            </div>
+            <p class="note">
+                Bu örnekte, <code>p</code> işaretçisi <code>&i</code> adresini tutar ve <code>addOne(p)</code> çağrısı ile fonksiyona gönderilir. Fonksiyonda, <code>(*ptr)++;</code> ifadesiyle <code>i</code> değeri 1 artırılır.
+            </p>
+        </div>
+                <hr>
+
+        <h3>Parametrelerin İşaretçi ile Geçilmesi</h3>
+        
+        <div class="example">
+            <strong>Örnek 1: İşaretçi ile Değer Geçirme</strong><br>
+            // Aşağıdaki program, bir değişkenin değerini işaretçi kullanarak fonksiyondan değiştirmeyi göstermektedir.<br><br>
+            <pre>
+#include &lt;stdio.h&gt;
+
+// Fonksiyon, parametre olarak gönderilen işaretçi ile değişkenin değerini 5 artırır.
+void modifyVal(int* myptr)
+{
+    // myptr'nin işaret ettiği değeri değiştiriyoruz
+    *myptr = *myptr + 5;
+}
+
+int main()
+{
+    int x = 5;
+    int* myptr = &x;
+
+    // İşaretçi myptr fonksiyona gönderilir
+    modifyVal(myptr);
+
+    // x'in değeri değiştirilmiş olarak yazdırılır
+    printf("x'in değiştirilmiş değeri: %d\n", x);
+    return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                x'in değiştirilmiş değeri: 10
+            </div>
+            <p class="note">
+                Bu örnekte, <code>modifyVal()</code> fonksiyonu <code>myptr</code> aracılığıyla <code>x</code> değerini değiştirir. 
+            </p>
+        </div>
+                <hr>
+
+        <div class="example">
+            <strong>Örnek 2: Sayının Karesini Hesaplama</strong><br>
+            // Aşağıdaki program, bir sayının karesini hesaplamak için işaretçi kullanarak parametre geçirme örneğidir.<br><br>
+            <pre>
+#include &lt;stdio.h&gt;
+
+void square(int *n)
+{
+    *n = (*n) * (*n);
+}
+
+int main()
+{
+    int num = 4;
+    square(&num);
+    printf("Karesi: %d\n", num); // Çıktı: 16
+    return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                Karesi: 16
+            </div>
+        </div>
+                <hr>
+
+        <div class="example">
+            <strong>Örnek 3: Dizinin Elemanlarını İkiye Katlama</strong><br>
+            // Bu örnekte, bir dizinin tüm elemanları işaretçi kullanılarak fonksiyona gönderilip ikiyle çarpılmaktadır.<br><br>
+            <pre>
+#include &lt;stdio.h&gt;
+
+void doubleElements(int *arr, int size)
+{
+    for (int i = 0; i < size; i++) {
+        *(arr + i) *= 2;
+    }
+}
+
+int main()
+{
+    int arr[] = {1, 2, 3, 4, 5};
+    int size = sizeof(arr) / sizeof(arr[0]);
+    
+    doubleElements(arr, size);
+    
+    printf("İkiye katlanmış dizi: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+    return 0;
+}
+            </pre>
+            <div class="output">
+                Çıktı:<br>
+                İkiye katlanmış dizi: 2 4 6 8 10
+            </div>
+        </div>
+            <a href="https://www.programiz.com/c-programming/c-pointers">Kaynak</a>
+
+    </div>
+</body>
+</html>
