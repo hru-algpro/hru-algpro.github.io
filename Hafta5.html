@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Hafta - C Programlama - String Fonksiyonları</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h2 {
+            text-align: center;
+        }
+        .question {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .solution {
+            display: none;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+            margin-bottom: 10px;
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .reference {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .reference a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>C Programlama - String Fonksiyonları ve Uygulama Soruları</h2>
+
+        <div class="question" onclick="toggleSolution('sol1')">
+            1. Bir karakter dizisinin uzunluğunu `strlen` fonksiyonunu kullanarak bulan bir C programı yazın.
+        </div>
+        <div id="sol1" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str[] = "Merhaba, dünya!";
+    int len = strlen(str);
+    printf("Dizinin uzunluğu: %d\n", len);
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol2')">
+            2. İki karakter dizisini `strcmp` fonksiyonuyla karşılaştıran bir C programı yazın.
+        </div>
+        <div id="sol2" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str1[] = "Selam";
+    char str2[] = "selam";
+    int result = strcmp(str1, str2);
+    if(result < 0) {
+        printf("str1, str2'den küçük.\n");
+    } else if(result > 0) {
+        printf("str1, str2'den büyük.\n");
+    } else {
+        printf("str1 ve str2 eşit.\n");
+    }
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol3')">
+            3. `strcat` fonksiyonunu kullanarak iki diziyi birleştiren bir C programı yazın.
+        </div>
+        <div id="sol3" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str1[50] = "Merhaba ";
+    char str2[] = "Dünya!";
+    strcat(str1, str2);
+    printf("Birleştirilmiş dize: %s\n", str1);
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol4')">
+            4. `strncpy` fonksiyonu ile bir dizinin ilk 5 karakterini kopyalayan bir C programı yazın.
+        </div>
+        <div id="sol4" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char src[] = "Merhaba Dünya";
+    char dest[10];
+    strncpy(dest, src, 5);
+    dest[5] = '\0';  // Sonuna NULL karakteri ekleyin
+    printf("Kopyalanan dize: %s\n", dest);
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol5')">
+            5. Bir dizideki belirli bir karakteri `strchr` fonksiyonu ile bulan bir C programı yazın.
+        </div>
+        <div id="sol5" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str[] = "C programlama";
+    char *pos = strchr(str, 'a');
+    if (pos != NULL) {
+        printf("Karakter bulundu: %s\n", pos);
+    } else {
+        printf("Karakter bulunamadı.\n");
+    }
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol6')">
+            6. `strrchr` fonksiyonunu kullanarak bir dizideki belirli bir karakterin son geçtiği yerin adresini bulan bir C programı yazın.
+        </div>
+        <div id="sol6" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str[] = "merhaba dünya";
+    char *pos = strrchr(str, 'a');
+    if (pos != NULL) {
+        printf("Son geçen 'a' karakteri: %s\n", pos);
+    } else {
+        printf("Karakter bulunamadı.\n");
+    }
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol7')">
+            7. `strstr` fonksiyonunu kullanarak bir alt string'in bulunduğu yerin adresini bulan bir C programı yazın.
+        </div>
+        <div id="sol7" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char text[] = "C dilinde programlama yapıyorum.";
+    char *search = "program";
+    char *pos = strstr(text, search);
+    if (pos != NULL) {
+        printf("Alt dize bulundu: %s\n", pos);
+    } else {
+        printf("Alt dize bulunamadı.\n");
+    }
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol8')">
+            8. `atoi` fonksiyonunu kullanarak bir string'i tamsayıya dönüştüren bir C programı yazın.
+        </div>
+        <div id="sol8" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    char str[] = "12345";
+    int num = atoi(str);
+    printf("String olarak: %s\n", str);
+    printf("Tamsayı olarak: %d\n", num);
+    return 0;
+}
+            </pre>
+        </div>
+
+        <div class="question" onclick="toggleSolution('sol9')">
+            9. `atof` fonksiyonu ile bir string'i ondalıklı sayıya dönüştüren bir C programı yazın.
+        </div>
+        <div id="sol9" class="solution">
+            <pre>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    char str[] = "3.14159";
+    double num = atof(str);
+    printf("String olarak: %s\n", str);
+    printf("Ondalıklı sayı olarak: %f\n", num);
+    return 0;
+}
+            </pre>
+        </div>
+ 
+
+
+<div class="question" onclick="toggleSolution('sol10')">
+    10. `strcpy` fonksiyonu ile bir karakter dizisini başka bir dizinin içine kopyalayan bir C programı yazın. Ancak, hedef dizinin boyutunu aşmamak için kaynak dizinin uzunluğunu kontrol edin ve dizinin taşmasını önleyin.
+</div>
+<div id="sol10" class="solution">
+    <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char src[] = "Merhaba, bu çok uzun bir dizedir!";
+    char dest[20];
+
+    if (strlen(src) < sizeof(dest)) {
+        strcpy(dest, src);
+        printf("Kopyalanmış dize: %s\n", dest);
+    } else {
+        printf("Hedef dizi boyutu yetersiz, kopyalama yapılamaz.\n");
+    }
+
+    return 0;
+}
+    </pre>
+</div>
+
+<div class="question" onclick="toggleSolution('sol11')">
+    11. `strncpy` fonksiyonunu kullanarak bir dizinin yalnızca ilk 10 karakterini kopyalayacak bir C programı yazın. Ayrıca, kopyalanan dizinin sonuna doğru bir NULL karakteri ekleyin.
+</div>
+<div id="sol11" class="solution">
+    <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char src[] = "Bu örnek bir uzun dizidir";
+    char dest[15];
+
+    strncpy(dest, src, 10);
+    dest[10] = '\0';  // NULL karakter eklemek
+
+    printf("Kopyalanan dize: %s\n", dest);
+    return 0;
+}
+    </pre>
+</div>
+
+<div class="question" onclick="toggleSolution('sol12')">
+    12. `strcat` fonksiyonunu kullanarak iki diziyi birleştiren bir C programı yazın. Birleştirilmiş dizinin uzunluğunu kontrol edin ve dizinin taşmasını önlemek için hedef dizisinin boyutunu sınırlayın.
+</div>
+<div id="sol12" class="solution">
+    <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str1[30] = "Merhaba, ";
+    char str2[] = "dünya!";
+    
+    if (strlen(str1) + strlen(str2) < sizeof(str1)) {
+        strcat(str1, str2);
+        printf("Birleştirilmiş dize: %s\n", str1);
+    } else {
+        printf("Birleştirilen dize hedef boyutu aşıyor.\n");
+    }
+
+    return 0;
+}
+    </pre>
+</div>
+
+<div class="question" onclick="toggleSolution('sol13')">
+    13. `strcmp` fonksiyonunu kullanarak iki dizinin büyük/küçük harfe duyarsız karşılaştırmasını yaparak, dizelerin alfabetik sırasını belirleyin.
+</div>
+<div id="sol13" class="solution">
+    <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char str1[] = "kış";
+    char str2[] = "Kış";
+
+    if (strcasecmp(str1, str2) == 0) {
+        printf("Dizeler eşittir (büyük/küçük harf duyarsız).\n");
+    } else {
+        printf("Dizeler eşit değil.\n");
+    }
+
+    return 0;
+}
+    </pre>
+</div>
+
+<div class="question" onclick="toggleSolution('sol14')">
+    14. `strstr` fonksiyonu ile bir dizide, belirli bir alt dizenin bulunduğu ilk yeri bulan bir C programı yazın ve bu yeri ekrana yazdırın.
+</div>
+<div id="sol14" class="solution">
+    <pre>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char text[] = "C programlama dilinde string işlemleri önemlidir.";
+    char *search = "string";
+    
+    char *pos = strstr(text, search);
+    if (pos != NULL) {
+        printf("Alt dize bulundu: %s\n", pos);
+    } else {
+        printf("Alt dize bulunamadı.\n");
+    }
+
+    return 0;
+}
+    </pre>
+</div>
+
+    
+
+    <script>
+        function toggleSolution(id) {
+            var solutions = document.querySelectorAll('.solution');
+            solutions.forEach(function(sol) {
+                if (sol.id !== id) {
+                    sol.style.display = 'none';
+                }
+            });
+
+            var element = document.getElementById(id);
+            if (element.style.display === 'block') {
+                element.style.display = 'none';
+            } else {
+                element.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
