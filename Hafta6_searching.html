@@ -118,7 +118,12 @@ const delay = ms => new Promise(r => setTimeout(r, ms));
       container.appendChild(bar);
     }
     target=bars[Math.floor(Math.random()*n)];
-    document.querySelector('#barContainerLinear').insertAdjacentHTML('beforebegin',`<h3>Aranan sayı: ${target}</h3>`);
+    const element = document.getElementById('searched_for_linear');
+    if (element) {
+      element.remove();  // Modern browsers support this
+    }
+
+    document.querySelector('#barContainerLinear').insertAdjacentHTML('beforebegin',`<h3 id='searched_for_linear'>Aranan sayı: ${target}</h3>`);
   }
 
   async function animate(){
@@ -165,7 +170,12 @@ const delay = ms => new Promise(r => setTimeout(r, ms));
       let bar=document.createElement('div');bar.className='bar';bar.style.height=val*2+'px';bar.innerHTML=`<span>${val}</span>`;container.appendChild(bar);
     });
     target=bars[Math.floor(Math.random()*n)];
-    document.querySelector('#barContainerBinary').insertAdjacentHTML('beforebegin',`<h3>Aranan sayı: ${target}</h3>`);
+    const element = document.getElementById('searched_for_binary');
+    if (element) {
+      element.remove();  // Modern browsers support this
+    }
+
+    document.querySelector('#barContainerBinary').insertAdjacentHTML('beforebegin',`<h3 id='searched_for_binary'>Aranan sayı: ${target}</h3>`);
   }
 
   async function animate(){
