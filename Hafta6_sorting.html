@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bubble Sort ve Insertion Sort Animasyonu</title>
+  <style>
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px gray;
+      font-family: Arial, sans-serif;
+      margin-bottom: 50px;
+    }
+    .bar-container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 300px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .bar {
+      width: 20px;
+      background-color: #4285F4;
+      margin: 0 2px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .bar span {
+      position: absolute;
+      top: -20px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body style="text-align: center;">
+
+    <button onclick="location.href='../../../index.html'">Dersin Anasayfasına Dön</button>
+    <button onclick="location.href='../../Hafta6.html'">6. Hafta'ya Dön</button>
+        <button onclick="location.href='../../Hafta6_searching.html'">Searching'e Git</button>
+
+  <!-- Bubble Sort Container (unchanged from previous) -->
+  <div class="container" style="margin-top:30px ;">
+    <h2>Bubble Sort (Kabarcık Sıralama) Animasyonu</h2>
+  <div style="text-align:left"> 
+    <p>
+      Bubble sort, ardışık iki elemanı karşılaştırıp sıralayarak çalışır. Her turda büyük elemanlar dizinin sonuna doğru ilerler. Ortalama ve en kötü durum performansı <strong>O(n²)</strong>'dir.
+    </p>
+  </div>
+
+    <div class="controls">
+      Eleman Sayısı: <input type="range" id="elementCountBubble" min="5" max="50" value="20">
+      <span id="elementCountValBubble">20</span>  
+      Hız: <input type="range" id="speedBubble" min="100" max="2000" value="500">
+      <span id="speedValBubble">500ms</span>  
+    </div>
+    <br>
+    <button id="startBtnBubble">Başlat</button>
+    <button id="restartBtnBubble">Yeniden Başlat</button>
+    <button id="skipBtnBubble">İleri Atla</button>
+    <div class="bar-container" id="barContainerBubble"></div>
+  </div>
+
+  <!-- Insertion Sort Container (Newly added) -->
+  <div class="container">
+    <h2>Insertion Sort (Ekleme Sıralama) Animasyonu</h2>
+  <div style="text-align:left"> 
+    <p>
+      Insertion sort, diziyi sıralı ve sırasız olarak böler, sırasız bölümden aldığı elemanı uygun yere yerleştirir. Ortalama performansı <strong>O(n²)</strong>, neredeyse sıralı dizilerde <strong>O(n)</strong>'dir.
+    </p>
+  </div>
+    <div class="controls">
+      Eleman Sayısı: <input type="range" id="elementCountInsertion" min="5" max="50" value="20">
+      <span id="elementCountValInsertion">20</span>  
+      Hız: <input type="range" id="speedInsertion" min="100" max="2000" value="500">
+      <span id="speedValInsertion">500ms</span>  
+    </div>
+        <br>
+
+    <button id="startBtnInsertion">Başlat</button>
+    <button id="restartBtnInsertion">Yeniden Başlat</button>
+    <button id="skipBtnInsertion">İleri Atla</button>
+    <div class="bar-container" id="barContainerInsertion"></div>
+  </div>
+
+<!-- Selection Sort Container -->
+<div class="container">
+  <h2>Selection Sort (Seçmeli Sıralama) Animasyonu</h2>
+  <div style="text-align:left"> 
+    <p>
+      Selection sort, her turda sırasız kısımdaki en küçük elemanı bulur ve baştakiyle yer değiştirir. Ortalama ve en kötü durum performansı <strong>O(n²)</strong>'dir.
+    </p>
+  </div>
+  <div class="controls">
+    Eleman Sayısı: <input type="range" id="elementCountSelection" min="5" max="50" value="20">
+    <span id="elementCountValSelection">20</span>  
+    Hız: <input type="range" id="speedSelection" min="100" max="2000" value="500">
+    <span id="speedValSelection">500ms</span>  
+  </div>
+        <br>
+
+  <button id="startBtnSelection">Başlat</button>
+  <button id="restartBtnSelection">Yeniden Başlat</button>
+  <button id="skipBtnSelection">İleri Atla</button>
+  <div class="bar-container" id="barContainerSelection"></div>
+</div>
+
+<!-- Quick Sort Container -->
+<div class="container">
+  <h2>Quick Sort (Hızlı Sıralama) Animasyonu</h2>
+  <div style="text-align:left"> 
+     <p>
+      Quick sort, diziyi pivot etrafında bölerek küçükleri sola, büyükleri sağa yerleştirir. Ortalama performansı <strong>O(n log n)</strong>, en kötü durumda <strong>O(n²)</strong>'dir.
+    </p>
+  </div>
+  <div class="controls">
+    Eleman Sayısı: <input type="range" id="elementCountQuick" min="5" max="50" value="20">
+    <span id="elementCountValQuick">20</span>  
+    Hız: <input type="range" id="speedQuick" min="100" max="2000" value="500">
+    <span id="speedValQuick">500ms</span>  
+  </div>
+      <br>
+
+  <button id="startBtnQuick">Başlat</button>
+  <button id="restartBtnQuick">Yeniden Başlat</button>
+  <button id="skipBtnQuick">İleri Atla</button>
+  <div class="bar-container" id="barContainerQuick"></div>
+</div>
+
+<script>
+// --- Bubble Sort Logic (unchanged from previous) ---
+(function(){
+  let bars = [];
+  let speed = 500;
+  let i = 0, j = 0, sorting = false, interval;
+
+  const container = document.getElementById('barContainerBubble');
+  const startBtn = document.getElementById('startBtnBubble');
+  const restartBtn = document.getElementById('restartBtnBubble');
+  const skipBtn = document.getElementById('skipBtnBubble');
+  const elemCount = document.getElementById('elementCountBubble');
+  const elemCountVal = document.getElementById('elementCountValBubble');
+  const speedRange = document.getElementById('speedBubble');
+  const speedVal = document.getElementById('speedValBubble');
+
+  function generateBars(num) {
+    container.innerHTML = ''; bars = [];
+    for (let k = 0; k < num; k++) {
+      let val = Math.floor(Math.random() * 100) + 1;
+      let bar = document.createElement('div');
+      bar.className = 'bar'; bar.style.height = val*2+'px';
+      bar.innerHTML = `<span>${val}</span>`;
+      container.appendChild(bar); bars.push(val);
+    }
+  }
+
+  function animate(){
+    if(!sorting) return;
+    if(i<bars.length){
+      if(j<bars.length-i-1){
+        let elems=container.children;
+        elems[j].style.background='#DB4437';
+        elems[j+1].style.background='#DB4437';
+        if(bars[j]>bars[j+1]){
+          [bars[j],bars[j+1]]=[bars[j+1],bars[j]];
+          [elems[j].style.height,elems[j+1].style.height]=[elems[j+1].style.height,elems[j].style.height];
+          [elems[j].innerHTML,elems[j+1].innerHTML]=[elems[j+1].innerHTML,elems[j].innerHTML];
+        }
+        setTimeout(()=>{
+          elems[j].style.background='#4285F4';
+          elems[j+1].style.background='#4285F4';
+          j++; animate();
+        },speed);
+      }else{ j=0; i++; animate(); }
+    }else{ sorting=false; startBtn.textContent='Başlat'; }
+  }
+
+  startBtn.onclick=()=>{
+    sorting=!sorting; startBtn.textContent=sorting?'Durdur':'Başlat';
+    if(sorting) animate();
+  };
+  restartBtn.onclick=()=>{sorting=false;i=j=0;startBtn.textContent='Başlat';generateBars(elemCount.value);}
+  skipBtn.onclick=()=>{
+    sorting=false; startBtn.textContent='Başlat';
+    bars.sort((a,b)=>a-b); generateBarsSorted();
+  };
+
+  function generateBarsSorted(){container.innerHTML='';bars.forEach(v=>{
+    let b=document.createElement('div');b.className='bar';b.style.height=v*2+'px';b.innerHTML=`<span>${v}</span>`;container.appendChild(b);
+  });}
+
+  elemCount.oninput=()=>{elemCountVal.textContent=elemCount.value;generateBars(elemCount.value);}
+  speedRange.oninput=()=>{speed=speedRange.value;speedVal.textContent=speed+'ms';}
+
+  generateBars(elemCount.value);
+})();
+
+// --- Insertion Sort Logic (new) ---
+(function(){
+  let bars=[],speed=500,i=1,j,sorting=false,interval;
+
+  const container=document.getElementById('barContainerInsertion');
+  const startBtn=document.getElementById('startBtnInsertion');
+  const restartBtn=document.getElementById('restartBtnInsertion');
+  const skipBtn=document.getElementById('skipBtnInsertion');
+  const elemCount=document.getElementById('elementCountInsertion');
+  const elemCountVal=document.getElementById('elementCountValInsertion');
+  const speedRange=document.getElementById('speedInsertion');
+  const speedVal=document.getElementById('speedValInsertion');
+
+  function generateBars(num){container.innerHTML='';bars=[];
+    for(let k=0;k<num;k++){
+      let val=Math.floor(Math.random()*100)+1;
+      let bar=document.createElement('div');
+      bar.className='bar';bar.style.height=val*2+'px';bar.innerHTML=`<span>${val}</span>`;
+      container.appendChild(bar);bars.push(val);
+    }
+  }
+
+  function animate(){
+    if(!sorting)return;
+    if(i<bars.length){
+      let key=bars[i],elems=container.children;j=i-1;
+      function innerLoop(){
+        if(j>=0&&bars[j]>key){
+          bars[j+1]=bars[j];
+          elems[j+1].style.height=elems[j].style.height;
+          elems[j+1].innerHTML=elems[j].innerHTML;
+          elems[j].style.background='#DB4437';
+          setTimeout(()=>{elems[j].style.background='#4285F4';j--;innerLoop();},speed);
+        }else{
+          bars[j+1]=key;
+          elems[j+1].style.height=key*2+'px';elems[j+1].innerHTML=`<span>${key}</span>`;
+          i++;setTimeout(animate,speed);
+        }
+      }innerLoop();
+    }else{sorting=false;startBtn.textContent='Başlat';}
+  }
+
+  startBtn.onclick=()=>{
+    sorting=!sorting;startBtn.textContent=sorting?'Durdur':'Başlat';if(sorting)animate();};
+  restartBtn.onclick=()=>{sorting=false;i=1;startBtn.textContent='Başlat';generateBars(elemCount.value);}
+  skipBtn.onclick=()=>{sorting=false;startBtn.textContent='Başlat';bars.sort((a,b)=>a-b);generateBarsSorted();}
+  function generateBarsSorted(){container.innerHTML='';bars.forEach(v=>{let b=document.createElement('div');b.className='bar';b.style.height=v*2+'px';b.innerHTML=`<span>${v}</span>`;container.appendChild(b);});}
+
+  elemCount.oninput=()=>{elemCountVal.textContent=elemCount.value;generateBars(elemCount.value);}
+  speedRange.oninput=()=>{speed=speedRange.value;speedVal.textContent=speed+'ms';}
+
+  generateBars(elemCount.value);
+})();
+
+// --- Quick Sort Logic ---
+(function(){
+  let bars=[],speed=500,sorting=false;
+
+  const container=document.getElementById('barContainerQuick'),
+  startBtn=document.getElementById('startBtnQuick'),
+  restartBtn=document.getElementById('restartBtnQuick'),
+  skipBtn=document.getElementById('skipBtnQuick'),
+  elemCount=document.getElementById('elementCountQuick'),
+  elemCountVal=document.getElementById('elementCountValQuick'),
+  speedRange=document.getElementById('speedQuick'),
+  speedVal=document.getElementById('speedValQuick');
+
+  function generateBars(n){
+    bars=[]; container.innerHTML='';
+    for(let k=0;k<n;k++){
+      let val=Math.floor(Math.random()*100)+1;
+      let bar=document.createElement('div');
+      bar.className='bar'; bar.style.height=val*2+'px';
+      bar.innerHTML=`<span>${val}</span>`;
+      container.appendChild(bar); bars.push(val);
+    }
+  }
+
+  async function quickSort(l,r){
+    if(l>=r||!sorting)return;
+    let p=await partition(l,r);
+    await quickSort(l,p-1);await quickSort(p+1,r);
+  }
+
+  async function partition(l,r){
+    let pivot=bars[r],i=l-1;
+    highlight([r],'#F4B400');await delay(speed);
+    for(let j=l;j<r;j++){
+      highlight([j],'#DB4437');await delay(speed);
+      if(bars[j]<pivot){i++;[bars[i],bars[j]]=[bars[j],bars[i]];swapBars(i,j);await delay(speed);}
+      resetColors();
+    }
+    [bars[i+1],bars[r]]=[bars[r],bars[i+1]];
+    swapBars(i+1,r);await delay(speed);resetColors();return i+1;
+  }
+
+  startBtn.onclick=()=>{sorting=!sorting;startBtn.textContent=sorting?'Durdur':'Başlat';if(sorting)quickSort(0,bars.length-1);}
+  restartBtn.onclick=()=>{sorting=false;startBtn.textContent='Başlat';generateBars(elemCount.value);}
+  skipBtn.onclick=()=>{sorting=false;bars.sort((a,b)=>a-b);renderSorted();}
+
+  function renderSorted(){container.innerHTML='';bars.forEach(v=>{let b=document.createElement('div');b.className='bar';b.style.height=v*2+'px';b.innerHTML=`<span>${v}</span>`;container.appendChild(b);});}
+
+  function highlight(idx,color){idx.forEach(i=>container.children[i].style.background=color);}
+  function resetColors(){[...container.children].forEach(b=>b.style.background='#4285F4');}
+  function swapBars(i,j){let h=container.children[i].style.height,html=container.children[i].innerHTML;container.children[i].style.height=container.children[j].style.height;container.children[i].innerHTML=container.children[j].innerHTML;container.children[j].style.height=h;container.children[j].innerHTML=html;}
+  const delay=ms=>new Promise(r=>setTimeout(r,ms));
+
+  elemCount.oninput=()=>{elemCountVal.textContent=elemCount.value;generateBars(elemCount.value);}
+  speedRange.oninput=()=>{speed=speedRange.value;speedVal.textContent=speed+'ms';}
+
+  generateBars(elemCount.value);
+})();
+
+// --- Selection Sort Logic ---
+(function(){
+  let bars=[],speed=500,i=0,sorting=false;
+
+  const container=document.getElementById('barContainerSelection'),
+  startBtn=document.getElementById('startBtnSelection'),
+  restartBtn=document.getElementById('restartBtnSelection'),
+  skipBtn=document.getElementById('skipBtnSelection'),
+  elemCount=document.getElementById('elementCountSelection'),
+  elemCountVal=document.getElementById('elementCountValSelection'),
+  speedRange=document.getElementById('speedSelection'),
+  speedVal=document.getElementById('speedValSelection');
+
+  function generateBars(n){
+    bars=[]; container.innerHTML='';
+    for(let k=0;k<n;k++){
+      let val=Math.floor(Math.random()*100)+1;
+      let bar=document.createElement('div');
+      bar.className='bar'; bar.style.height=val*2+'px';
+      bar.innerHTML=`<span>${val}</span>`;
+      container.appendChild(bar); bars.push(val);
+    }
+  }
+
+  async function animate(){
+    sorting=true;
+    for(i=0;i<bars.length;i++){
+      let min=i;
+      for(let j=i+1;j<bars.length;j++){
+        highlight([min,j],'#DB4437');await delay(speed);
+        if(bars[j]<bars[min])min=j;
+        resetColors();
+      }
+      [bars[i],bars[min]]=[bars[min],bars[i]];
+      swapBars(i,min);await delay(speed);
+    }
+    sorting=false;startBtn.textContent='Başlat';
+  }
+
+  startBtn.onclick=()=>{sorting=!sorting;startBtn.textContent=sorting?'Durdur':'Başlat';if(sorting)animate();}
+  restartBtn.onclick=()=>{sorting=false;i=0;startBtn.textContent='Başlat';generateBars(elemCount.value);}
+  skipBtn.onclick=()=>{sorting=false;bars.sort((a,b)=>a-b);renderSorted();}
+
+  function renderSorted(){container.innerHTML='';bars.forEach(v=>{let b=document.createElement('div');b.className='bar';b.style.height=v*2+'px';b.innerHTML=`<span>${v}</span>`;container.appendChild(b);});}
+
+  function highlight(idx,color){idx.forEach(i=>container.children[i].style.background=color);}
+  function resetColors(){[...container.children].forEach(b=>b.style.background='#4285F4');}
+  function swapBars(i,j){let h=container.children[i].style.height,html=container.children[i].innerHTML;container.children[i].style.height=container.children[j].style.height;container.children[i].innerHTML=container.children[j].innerHTML;container.children[j].style.height=h;container.children[j].innerHTML=html;}
+  const delay=ms=>new Promise(r=>setTimeout(r,ms));
+
+  elemCount.oninput=()=>{elemCountVal.textContent=elemCount.value;generateBars(elemCount.value);}
+  speedRange.oninput=()=>{speed=speedRange.value;speedVal.textContent=speed+'ms';}
+
+  generateBars(elemCount.value);
+})();
+</script>
+</body>
+</html> 

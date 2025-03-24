@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Linear ve Binary Search Animasyonu</title>
+  <style>
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px gray;
+      font-family: Arial, sans-serif;
+      margin-bottom: 50px;
+    }
+    .bar-container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      height: 300px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    .bar {
+      width: 20px;
+      background-color: #4285F4;
+      margin: 0 2px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+    .bar span {
+      position: absolute;
+      top: -20px;
+      width: 100%;
+      text-align: center;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body style="text-align: center;">
+    <button onclick="location.href='../index.html'">Dersin Anasayfasına Dön</button>
+    <button onclick="location.href='../Hafta6.html'">6. Hafta'ya Dön</button>
+        <button onclick="location.href='../Hafta6_sorting.html'">Sorting'e Git</button>
+<!-- Linear Search Container -->
+<div class="container" style="margin-top:30px ;">
+  <h2>Linear Search (Doğrusal Arama) Animasyonu</h2>  
+ <div style="text-align:left"> 
+    <p>
+      Linear search, elemanı bulmak için diziyi baştan sona tek tek kontrol eder. Eleman bulunursa indeks döner, bulunmazsa sona kadar devam eder. Karmaşıklığı <strong>O(n)</strong>'dir.
+    </p>
+  </div>
+  <div class="controls">
+    Eleman Sayısı: <input type="range" id="elementCountLinear" min="5" max="50" value="20">
+    <span id="elementCountValLinear">20</span>  
+    Hız: <input type="range" id="speedLinear" min="100" max="2000" value="500">
+    <span id="speedValLinear">500ms</span>  
+  </div>
+      <br>
+
+  <button id="startBtnLinear">Başlat</button>
+  <button id="restartBtnLinear">Yeniden Başlat</button>
+  <button id="skipBtnLinear">İleri Atla</button>
+  <div class="bar-container" id="barContainerLinear"></div>
+</div>
+
+<!-- Binary Search Container -->
+<div class="container">
+  <h2>Binary Search (İkili Arama) Animasyonu</h2>   
+<div style="text-align:left">
+    <p>
+      Binary search, sıralı diziyi sürekli ikiye bölerek aranan elemanı bulur. Her adımda arama aralığını yarıya indirir. Karmaşıklığı <strong>O(log n)</strong>'dir.
+    </p>
+  </div>
+
+
+
+  <div class="controls">
+    Eleman Sayısı: <input type="range" id="elementCountBinary" min="5" max="50" value="20">
+    <span id="elementCountValBinary">20</span>  
+    Hız: <input type="range" id="speedBinary" min="100" max="2000" value="500">
+    <span id="speedValBinary">500ms</span>  
+  </div>
+      <br>
+
+  <button id="startBtnBinary">Başlat</button>
+  <button id="restartBtnBinary">Yeniden Başlat</button>
+  <button id="skipBtnBinary">İleri Atla</button>
+  <div class="bar-container" id="barContainerBinary"></div>
+</div>
+
+<script>
+// Utility
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+// --- Linear Search ---
+(function(){
+  let bars = [], speed = 500, sorting = false, target;
+
+  const container = document.getElementById('barContainerLinear'),
+    startBtn = document.getElementById('startBtnLinear'),
+    restartBtn = document.getElementById('restartBtnLinear'),
+    skipBtn = document.getElementById('skipBtnLinear'),
+    elemCount = document.getElementById('elementCountLinear'),
+    elemCountVal = document.getElementById('elementCountValLinear'),
+    speedRange = document.getElementById('speedLinear'),
+    speedVal = document.getElementById('speedValLinear');
+
+  function generateBars(n){
+    bars=[]; container.innerHTML='';
+    for(let k=0;k<n;k++){
+      let val=Math.floor(Math.random()*100)+1;
+      bars.push(val);
+      let bar=document.createElement('div');
+      bar.className='bar'; bar.style.height=val*2+'px';
+      bar.innerHTML=`<span>${val}</span>`;
+      container.appendChild(bar);
+    }
+    target=bars[Math.floor(Math.random()*n)];
+    document.querySelector('#barContainerLinear').insertAdjacentHTML('beforebegin',`<h3>Aranan sayı: ${target}</h3>`);
+  }
+
+  async function animate(){
+    sorting=true;
+    for(let i=0;i<bars.length;i++){
+      highlight(i,'#DB4437'); await delay(speed);
+      if(bars[i]==target){
+        highlight(i,'#34A853'); sorting=false;startBtn.textContent='Başlat';return;
+      }else resetColor(i);
+    }
+    sorting=false;startBtn.textContent='Başlat';
+  }
+
+  startBtn.onclick=()=>{sorting=!sorting;startBtn.textContent=sorting?'Durdur':'Başlat';if(sorting)animate();}
+  restartBtn.onclick=()=>{location.reload();}
+  skipBtn.onclick=()=>{animate();}
+
+  const highlight=(i,c)=>{container.children[i].style.background=c;}
+  const resetColor=i=>{container.children[i].style.background='#4285F4';}
+
+  elemCount.oninput=()=>{elemCountVal.textContent=elemCount.value;generateBars(elemCount.value);}
+  speedRange.oninput=()=>{speed=speedRange.value;speedVal.textContent=speed+'ms';}
+
+  generateBars(elemCount.value);
+})();
+
+// --- Binary Search ---
+(function(){
+  let bars=[],speed=500,sorting=false,target;
+
+  const container=document.getElementById('barContainerBinary'),
+  startBtn=document.getElementById('startBtnBinary'),
+  restartBtn=document.getElementById('restartBtnBinary'),
+  skipBtn=document.getElementById('skipBtnBinary'),
+  elemCount=document.getElementById('elementCountBinary'),
+  elemCountVal=document.getElementById('elementCountValBinary'),
+  speedRange=document.getElementById('speedBinary'),
+  speedVal=document.getElementById('speedValBinary');
+
+  function generateBars(n){
+    bars=[];container.innerHTML='';
+    for(let k=0;k<n;k++)bars.push(Math.floor(Math.random()*100)+1);
+    bars.sort((a,b)=>a-b);bars.forEach(val=>{
+      let bar=document.createElement('div');bar.className='bar';bar.style.height=val*2+'px';bar.innerHTML=`<span>${val}</span>`;container.appendChild(bar);
+    });
+    target=bars[Math.floor(Math.random()*n)];
+    document.querySelector('#barContainerBinary').insertAdjacentHTML('beforebegin',`<h3>Aranan sayı: ${target}</h3>`);
+  }
+
+  async function animate(){
+    sorting=true;let l=0,r=bars.length-1;
+    while(l<=r){
+      let m=Math.floor((l+r)/2);highlight(m,'#F4B400');await delay(speed);
+      if(bars[m]==target){highlight(m,'#34A853');sorting=false;startBtn.textContent='Başlat';return;}
+      bars[m]<target?(highlight(m,'#DB4437'),l=m+1):(highlight(m,'#DB4437'),r=m-1);await delay(speed);resetColors();
+    }sorting=false;startBtn.textContent='Başlat';
+  }
+
+  startBtn.onclick=()=>{sorting=!sorting;startBtn.textContent=sorting?'Durdur':'Başlat';if(sorting)animate();}
+  restartBtn.onclick=()=>{location.reload();}
+  skipBtn.onclick=()=>{animate();}
+
+  const highlight=(i,c)=>{container.children[i].style.background=c;}
+  const resetColors=()=>{[...container.children].forEach(b=>b.style.background='#4285F4');}
+
+  elemCount.oninput=()=>{elemCountVal.textContent=elemCount.value;generateBars(elemCount.value);}
+  speedRange.oninput=()=>{speed=speedRange.value;speedVal.textContent=speed+'ms';}
+
+  generateBars(elemCount.value);
+})();
+</script>

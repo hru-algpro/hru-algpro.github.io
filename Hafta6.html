@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. Hafta - C Programlama - Sıralama (Sorting) ve Arama (Searching) Algoritmaları
+</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h2 {
+            text-align: center;
+        }
+        .question {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .solution {
+            display: none;
+            background-color: #e9ecef;
+            padding: 10px;
+            border-left: 5px solid #007bff;
+            margin-bottom: 10px;
+        }
+        pre {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .reference {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .reference a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>C Programlama - Sıralama (Sorting) ve Arama (Searching) Algoritmaları
+ ve Uygulama Soruları</h2>
+
+ 
+
+      <div class="question" onclick="toggleSolution('sol1')">
+        1. Bubble Sort (Balon Sıralaması): Bubble Sort algoritması ile diziyi küçükten büyüğe sıralama.
+    </div>
+    <div id="sol1" class="solution">
+        <pre> 
+#include <stdio.h>
+
+void bubbleSort(int dizi[], int n) {
+    // Her turda komşu elemanlar karşılaştırılarak yer değiştirir.
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (dizi[j] > dizi[j + 1]) {
+                int temp = dizi[j];
+                dizi[j] = dizi[j + 1];
+                dizi[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int dizi[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+    bubbleSort(dizi, n);
+    printf("Sıralı dizi: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", dizi[i]);
+    }
+    return 0;
+}
+        </pre>
+    </div>
+    
+    <div class="question" onclick="toggleSolution('sol2')">
+        2. Insertion Sort (Ekleme Sıralaması): Insertion Sort algoritması ile diziyi sıralama.
+    </div>
+    <div id="sol2" class="solution">
+        <pre> 
+// Her eleman, sıralı kısmın doğru yerine eklenir.
+#include <stdio.h>
+
+void insertionSort(int dizi[], int n) {
+    int key, j;
+    for (int i = 1; i < n; i++) {
+        key = dizi[i]; // Yerleştirilecek eleman
+        j = i - 1;
+        // key'den büyük elemanlar sağa kaydırılır.
+        while (j >= 0 && dizi[j] > key) {
+            dizi[j + 1] = dizi[j];
+            j--;
+        }
+        dizi[j + 1] = key; // key uygun konuma yerleştirilir.
+    }
+}
+
+int main() {
+    int dizi[] = {12, 11, 13, 5, 6};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+    insertionSort(dizi, n);
+    printf("Sıralı dizi: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", dizi[i]);
+    }
+    return 0;
+}
+        </pre>
+    </div>
+    
+    <div class="question" onclick="toggleSolution('sol3')">
+        3. Selection Sort (Seçme Sıralaması): Bu algoritma ile dizideki en küçük elemanı bulup sırasıyla yerleştirme.
+    </div>
+    <div id="sol3" class="solution">
+        <pre>
+// Bu program, 
+#include <stdio.h>
+
+void selectionSort(int dizi[], int n) {
+    int enKucuk, temp;
+    for (int i = 0; i < n - 1; i++) {
+        enKucuk = i;
+        for (int j = i + 1; j < n; j++) {
+            if (dizi[j] < dizi[enKucuk]) {
+                enKucuk = j;
+            }
+        }
+        // Bulunan en küçük eleman ile mevcut eleman yer değiştirir.
+        temp = dizi[enKucuk];
+        dizi[enKucuk] = dizi[i];
+        dizi[i] = temp;
+    }
+}
+
+int main() {
+    int dizi[] = {29, 10, 14, 37, 14};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+    selectionSort(dizi, n);
+    printf("Sıralı dizi: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", dizi[i]);
+    }
+    return 0;
+}
+        </pre>
+    </div>
+    
+    <div class="question" onclick="toggleSolution('sol4')">
+        4. Quick Sort (Hızlı Sıralama): Quick Sort algoritması ile diziyi sıralama.
+    </div>
+    <div id="sol4" class="solution">
+        <pre> 
+// Pivot eleman etrafında bölerek sıralama yapılır.
+#include <stdio.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int partition(int dizi[], int low, int high) {
+    int pivot = dizi[high];
+    int i = low - 1;
+    for (int j = low; j < high; j++) {
+        if (dizi[j] < pivot) {
+            i++;
+            swap(&dizi[i], &dizi[j]);
+        }
+    }
+    swap(&dizi[i + 1], &dizi[high]);
+    return i + 1;
+}
+
+void quickSort(int dizi[], int low, int high) {
+    if (low < high) {
+        int pi = partition(dizi, low, high);
+        quickSort(dizi, low, pi - 1);
+        quickSort(dizi, pi + 1, high);
+    }
+}
+
+int main() {
+    int dizi[] = {10, 7, 8, 9, 1, 5};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+    quickSort(dizi, 0, n - 1);
+    printf("Sıralı dizi: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", dizi[i]);
+    }
+    return 0;
+}
+        </pre>
+    </div>
+    
+    <div class="question" onclick="toggleSolution('sol5')">
+        5. Linear Search (Doğrusal Arama): Linear Search algoritması ile dizi içinde arama yapma.
+    </div>
+    <div id="sol5" class="solution">
+        <pre> 
+#include <stdio.h>
+
+int linearSearch(int dizi[], int n, int aranan) {
+    for (int i = 0; i < n; i++) {
+        if (dizi[i] == aranan)
+            return i; // aranan elemanın bulunduğu indeks
+    }
+    return -1; // eleman bulunamazsa -1 döner
+}
+
+int main() {
+    int dizi[] = {3, 4, 5, 6, 7};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+    int aranan = 6;
+    int indeks = linearSearch(dizi, n, aranan);
+    if (indeks != -1)
+        printf("Eleman indeks %d'de bulundu.\n", indeks);
+    else
+        printf("Eleman bulunamadı.\n");
+    return 0;
+}
+        </pre>
+    </div>
+    
+    <div class="question" onclick="toggleSolution('sol6')">
+        6. Binary Search (İkili Arama): Binary Search algoritması ile sıralı dizide arama yapma.
+    </div>
+    <div id="sol6" class="solution">
+        <pre> 
+// Dizinin sıralı olması gerekmektedir.
+#include <stdio.h>
+
+int binarySearch(int dizi[], int sol, int sag, int aranan) {
+    while (sol <= sag) {
+        int orta = sol + (sag - sol) / 2;
+        if (dizi[orta] == aranan)
+            return orta;
+        if (dizi[orta] < aranan)
+            sol = orta + 1;
+        else
+            sag = orta - 1;
+    }
+    return -1; // eleman bulunamadı
+}
+
+int main() {
+    int dizi[] = {2, 3, 4, 10, 40};
+    int n = sizeof(dizi) / sizeof(dizi[0]);
+    int aranan = 10;
+    int indeks = binarySearch(dizi, 0, n - 1, aranan);
+    if (indeks != -1)
+        printf("Eleman indeks %d'de bulundu.\n", indeks);
+    else
+        printf("Eleman bulunamadı.\n");
+    return 0;
+}
+        </pre>
+    </div>   
+
+</div>
+
+    <script>
+        function toggleSolution(id) {
+            var solutions = document.querySelectorAll('.solution');
+            solutions.forEach(function(sol) {
+                if (sol.id !== id) {
+                    sol.style.display = 'none';
+                }
+            });
+
+            var element = document.getElementById(id);
+            if (element.style.display === 'block') {
+                element.style.display = 'none';
+            } else {
+                element.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
